@@ -18,6 +18,7 @@ function App() {
   const [atisData, setAtisData] = useState([]);
   const [icaoToName, setIcaoToName] = useState({});
   const [controllers, setControllers] = useState([]);
+  const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -26,17 +27,39 @@ function App() {
     const controllersUrl = window.location.hostname === 'localhost' ?
       'http://localhost:5179/proxy/controllers' :
       '/controllers';
+
+    // Check for config file in URL (e.g., /n90)
+    const configPath = window.location.pathname.match(/^\/(\w+)/)?.[1];
+    const configPromise = configPath ? fetch(`/${configPath}.json`).then(res => res.json()).catch(() => null) : Promise.resolve(null);
+
     Promise.all([
       fetch('https://data.vatsim.net/v3/afv-atis-data.json').then((res) => res.json()),
       fetchVatSpyMapping(),
-      fetch(controllersUrl).then((res) => res.json())
+      fetch(controllersUrl).then((res) => res.json()),
+      configPromise
     ])
-      .then(([atisRaw, icaoMap, controllersRaw]) => {
+      .then(([atisRaw, icaoMap, controllersRaw, configObj]) => {
         if (!isMounted) return;
-        const stations = Array.isArray(atisRaw) ? atisRaw : (atisRaw.atis_stations || []);
+        setConfig(configObj);
+        // ATIS filtering
+        let stations = Array.isArray(atisRaw) ? atisRaw : (atisRaw.atis_stations || []);
+        if (configObj?.atis) {
+          stations = stations.filter(station => configObj.atis.includes(station.callsign));
+        }
         setAtisData(stations);
         setIcaoToName(icaoMap);
-        setControllers(Array.isArray(controllersRaw) ? controllersRaw : (controllersRaw.controllers || []));
+        // Controllers filtering
+        let ctrls = Array.isArray(controllersRaw) ? controllersRaw : (controllersRaw.controllers || []);
+        if (configObj?.controllers) {
+          ctrls = ctrls.filter(ctrl => {
+            // Filter by callsign or ARTCC code
+            const vatsim = ctrl.vatsimData || {};
+            const callsign = vatsim.callsign || (Array.isArray(ctrl.positions) && ctrl.positions[0]?.defaultCallsign) || '';
+            const artcc = ctrl.artccId || '';
+            return configObj.controllers.includes(callsign) || configObj.controllers.includes(artcc);
+          });
+        }
+        setControllers(ctrls);
         setLoading(false);
       })
       .catch((err) => {
