@@ -70,11 +70,30 @@ function App() {
     return () => { isMounted = false; };
   }, []);
 
+  const [configInput, setConfigInput] = useState("");
+  const handleConfigSubmit = (e) => {
+    e.preventDefault();
+    if (configInput.trim()) {
+      window.location.href = `/${configInput.trim()}`;
+    }
+  };
+
   return (
     <div style={{display: 'flex', flexDirection: 'row'}}>
       {/* Main ATIS cards */}
       <div style={{flex: 1}}>
-        <div style={{height: '32px', background: '#f4f6fb'}}></div>
+        <div style={{height: '32px', background: '#f4f6fb', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <form onSubmit={handleConfigSubmit} style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+            <input
+              type="text"
+              placeholder="Enter config code (e.g. n90, hcf)"
+              value={configInput}
+              onChange={e => setConfigInput(e.target.value)}
+              style={{padding: '4px 8px', borderRadius: '4px', border: '1px solid #ccc', fontSize: '1rem'}}
+            />
+            <button type="submit" style={{padding: '4px 12px', borderRadius: '4px', border: 'none', background: '#1976d2', color: '#fff', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer'}}>Go</button>
+          </form>
+        </div>
         <h1 style={{textAlign: 'center', color: '#2c3e50', margin: '0 0 32px 0'}}>VATSIM ATIS</h1>
         {loading ? (
           <p style={{textAlign: 'center'}}>Loading ATIS data...</p>
