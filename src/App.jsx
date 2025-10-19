@@ -49,30 +49,6 @@ function App() {
 
   return (
     <div style={{display: 'flex', flexDirection: 'row'}}>
-      {/* Sidebar for controllers */}
-      <div style={{width: '340px', background: '#f4f6fb', borderRight: '1px solid #e0e0e0', minHeight: '100vh', padding: '24px 12px 12px 12px'}}>
-        <h2 style={{marginTop: 0, marginBottom: '18px', color: '#2c3e50', fontSize: '1.25rem'}}>Online Controllers</h2>
-        {loading ? (
-          <p>Loading controllers...</p>
-        ) : (
-          <div>
-            {controllers.length === 0 ? <p>No controllers online.</p> : null}
-            {controllers.map(ctrl => (
-              <div key={ctrl.callsign + ctrl.cid} style={{background: '#fff', border: '1px solid #e0e0e0', borderRadius: '8px', marginBottom: '12px', padding: '12px 10px'}}>
-                <div style={{fontWeight: 'bold', fontSize: '1.05rem', color: '#34495e'}}>{ctrl.realName || 'Unknown Name'}</div>
-                <div style={{marginBottom: '4px'}}>
-                  <span style={{fontFamily: 'monospace', color: '#1976d2'}}>{ctrl.callsign}</span>
-                  <span style={{marginLeft: '10px', color: '#bdbdbd'}}>Facility: {ctrl.facilityID ?? 'N/A'}</span>
-                </div>
-                <div style={{fontSize: '0.95rem', color: '#616161'}}>
-                  <span>Online: {ctrl.timeOnline ? Math.floor(ctrl.timeOnline / 60) + 'm' : 'N/A'}</span>
-                  <span style={{marginLeft: '10px'}}>Radio: {ctrl.radioName || 'N/A'}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
       {/* Main ATIS cards */}
       <div style={{flex: 1}}>
         <div style={{height: '32px', background: '#f4f6fb'}}></div>
@@ -113,6 +89,41 @@ function App() {
                     <div className="atis-image-text-box">
                       <pre className="atis-image-text">{station.text_atis || 'No ATIS available.'}</pre>
                     </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+      {/* Sidebar for controllers on the right */}
+      <div style={{width: '340px', background: '#f4f6fb', borderLeft: '1px solid #e0e0e0', minHeight: '100vh', padding: '24px 12px 12px 12px'}}>
+        <h2 style={{marginTop: 0, marginBottom: '18px', color: '#2c3e50', fontSize: '1.25rem'}}>Online Controllers</h2>
+        {loading ? (
+          <p>Loading controllers...</p>
+        ) : (
+          <div>
+            {controllers.length === 0 ? <p>No controllers online.</p> : null}
+            {controllers.map(ctrl => {
+              // Use provided JSON structure
+              const vatsim = ctrl.vatsimData || {};
+              const position = Array.isArray(ctrl.positions) && ctrl.positions.length > 0 ? ctrl.positions[0] : {};
+              // Calculate online time from loginTime
+              let onlineMins = 'N/A';
+              if (ctrl.loginTime) {
+                const loginDate = new Date(ctrl.loginTime);
+                onlineMins = Math.floor((Date.now() - loginDate.getTime()) / 60000) + 'm';
+              }
+              return (
+                <div key={(vatsim.callsign || position.defaultCallsign || 'unknown') + vatsim.cid} style={{background: '#fff', border: '1px solid #e0e0e0', borderRadius: '8px', marginBottom: '12px', padding: '12px 10px'}}>
+                  <div style={{fontWeight: 'bold', fontSize: '1.05rem', color: '#34495e'}}>{vatsim.realName || 'Unknown Name'}</div>
+                  <div style={{marginBottom: '4px'}}>
+                    <span style={{fontFamily: 'monospace', color: '#1976d2'}}>{vatsim.callsign || position.defaultCallsign || 'N/A'}</span>
+                    <span style={{marginLeft: '10px', color: '#bdbdbd'}}>Facility: {position.facilityName || ctrl.primaryFacilityId || 'N/A'}</span>
+                  </div>
+                  <div style={{fontSize: '0.95rem', color: '#616161'}}>
+                    <span>Online: {onlineMins}</span>
+                    <span style={{marginLeft: '10px'}}>Radio: {position.radioName || 'N/A'}</span>
                   </div>
                 </div>
               );
