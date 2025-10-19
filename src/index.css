@@ -1,0 +1,256 @@
+.atis-image-meta-row {
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+/* Callsign and frequency row above ATIS card */
+.atis-image-meta-row {
+  display: flex;
+  gap: 32px;
+  font-size: 1.25rem;
+  color: #fff;
+  font-weight: bold;
+  padding: 18px 24px 8px 24px;
+  align-items: center;
+  border-bottom: 1px solid #444;
+  background: #232323;
+  border-radius: 6px 6px 0 0;
+}
+.atis-image-callsign {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.atis-image-frequency {
+  letter-spacing: 2px;
+}
+.atis-card-image-style {
+  background: #232323;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  border: 1px solid #444;
+  padding: 0;
+  color: #fff;
+  margin-bottom: 18px;
+}
+
+.atis-image-row {
+  display: flex;
+  align-items: stretch;
+}
+
+.atis-image-letter-box {
+  background: #232323;
+  color: #fff;
+  font-size: 2.8rem;
+  font-weight: bold;
+  width: 70px;
+  min-width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px 0 0 6px;
+  margin: 8px 0 8px 8px;
+  border: 1px solid #444;
+  height: auto;
+}
+
+.atis-image-text-box {
+  flex: 1;
+  background: #232323;
+  border-radius: 0 6px 6px 0;
+  margin: 8px 8px 8px 0;
+  display: flex;
+  align-items: stretch;
+  border: 1px solid #444;
+}
+
+.atis-image-text {
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: #fff;
+  font-size: 1.1rem;
+  padding: 12px 16px;
+  margin: 0;
+  white-space: pre-wrap;
+  width: 100%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  min-height: 70px;
+}
+
+.atis-image-letter-box {
+  background: #232323;
+  color: #fff;
+  font-size: 2.8rem;
+  font-weight: bold;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px 0 0 6px;
+  margin: 8px 0 8px 8px;
+  border: 1px solid #444;
+}
+
+.atis-image-text-box {
+  flex: 1;
+  background: #232323;
+  border-radius: 0 6px 6px 0;
+  margin: 8px 8px 8px 0;
+  display: flex;
+  align-items: center;
+  border: 1px solid #444;
+}
+
+.atis-image-text {
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: #fff;
+  font-size: 1.1rem;
+  padding: 12px 16px;
+  margin: 0;
+  white-space: pre-wrap;
+  width: 100%;
+  background: transparent;
+}
+/* ATIS card design styles */
+.atis-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.atis-card-dark {
+  background: #2d2d2d;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  padding: 0;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.atis-row {
+  display: flex;
+  align-items: stretch;
+}
+
+.atis-letter-box {
+  background: #232323;
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  width: 70px;
+  min-width: 70px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px 0 0 8px;
+  margin-right: 12px;
+}
+
+.atis-info-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 18px;
+}
+
+.atis-header {
+  display: flex;
+  gap: 12px;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.atis-icao {
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.atis-name {
+  color: #bdbdbd;
+}
+
+.atis-text {
+  font-family: 'Consolas', 'Courier New', monospace;
+  background: #232323;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  white-space: pre-wrap;
+  color: #fff;
+}
+
+.atis-details {
+  font-size: 0.95rem;
+  color: #bdbdbd;
+}
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}

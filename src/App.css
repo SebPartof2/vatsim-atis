@@ -1,0 +1,43 @@
+
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f4f6fb;
+}
+
+.atis-list-simple {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 32px;
+}
+
+.atis-list-simple h1 {
+  color: #2c3e50;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.atis-list-simple ul {
+  list-style: none;
+  padding: 0;
+}
+
+.atis-list-simple li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eaf0fb;
+  color: #1b263b;
+  text-align: left;
+}
+
+.atis-list-simple li:last-child {
+  border-bottom: none;
+}
+
+.error {
+  color: #d90429;
+  text-align: left;
+}
