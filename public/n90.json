@@ -1,4 +1,4 @@
 {
-  "atis": ["JFK_ATIS", "LGA_ATIS", "EWR_ATIS","SAN_ATIS"],
+  "atis": ["JFK_ATIS", "LGA_ATIS", "EWR_ATIS","KSAN_ATIS"],
   "controllers": ["ZLA"]
 }
