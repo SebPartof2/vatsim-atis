@@ -25,7 +25,7 @@ function App() {
     let isMounted = true;
     const controllersUrl = window.location.hostname === 'localhost' ?
       'http://localhost:5179/proxy/controllers' :
-      'https://live.env.vnas.vatsim.net/data-feed/controllers.json';
+      '/controllers';
     Promise.all([
       fetch('https://data.vatsim.net/v3/afv-atis-data.json').then((res) => res.json()),
       fetchVatSpyMapping(),
