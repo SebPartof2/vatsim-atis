@@ -43,23 +43,60 @@ function App() {
         setConfig(configObj);
         // ATIS filtering
         let stations = Array.isArray(atisRaw) ? atisRaw : (atisRaw.atis_stations || []);
+        let atisFiltered = stations;
         if (configObj?.atis) {
-          stations = stations.filter(station => configObj.atis.includes(station.callsign));
+          atisFiltered = stations.filter(station => configObj.atis.includes(station.callsign));
         }
-        setAtisData(stations);
+        // Debug output
+        if (configObj?.atis) {
+          console.log('[DEBUG] Config ATIS filter:', configObj.atis);
+          console.log('[DEBUG] All ATIS callsigns:', stations.map(s => s.callsign));
+          console.log('[DEBUG] Filtered ATIS callsigns:', atisFiltered.map(s => s.callsign));
+        }
+        setAtisData(atisFiltered);
         setIcaoToName(icaoMap);
-        // Controllers filtering
+        // Controllers filtering (fixed for flat config keys)
         let ctrls = Array.isArray(controllersRaw) ? controllersRaw : (controllersRaw.controllers || []);
-        if (configObj?.controllers) {
+        console.log('[DEBUG] Raw controllers data:', ctrls);
+        if (configObj) {
+          // Use flat config keys (controllers_artccid, controllers_facility, controllers_callsign)
+          const artccArr = Array.isArray(configObj.controllers_artccid) ? configObj.controllers_artccid.map(x => x.toUpperCase()) : [];
+          const pfArr = Array.isArray(configObj.controllers_facility) ? configObj.controllers_facility.map(x => x.toUpperCase()) : [];
+          const callsignArr = Array.isArray(configObj.controllers_callsign) ? configObj.controllers_callsign.map(x => x.toUpperCase()) : [];
+          console.log('[DEBUG] Config controllers_artccid:', artccArr);
+          console.log('[DEBUG] Config controllers_facility:', pfArr);
+          console.log('[DEBUG] Config controllers_callsign:', callsignArr);
           ctrls = ctrls.filter(ctrl => {
-            // Filter by callsign or ARTCC code
-            const vatsim = ctrl.vatsimData || {};
-            const callsign = vatsim.callsign || (Array.isArray(ctrl.positions) && ctrl.positions[0]?.defaultCallsign) || '';
-            const artcc = ctrl.artccId || '';
-            return configObj.controllers.includes(callsign) || configObj.controllers.includes(artcc);
+            let callsign = '';
+            let artcc = '';
+            let primaryFacilityId = '';
+            if (ctrl.vatsimData) {
+              callsign = ctrl.vatsimData.callsign || '';
+              artcc = ctrl.artccId || ctrl.vatsimData.artccId || '';
+              primaryFacilityId = ctrl.primaryFacilityId || ctrl.vatsimData.primaryFacilityId || '';
+            } else {
+              callsign = ctrl.callsign || '';
+              const artccMatch = callsign.match(/^(Z[A-Z]{2})_/i);
+              artcc = ctrl.artccId || (artccMatch ? artccMatch[1] : '');
+              primaryFacilityId = ctrl.primaryFacilityId || ctrl.facility || '';
+            }
+            callsign = callsign.toUpperCase();
+            artcc = artcc.toUpperCase();
+            primaryFacilityId = primaryFacilityId.toUpperCase();
+            let match = false;
+            if (artccArr.length && artccArr.includes(artcc)) match = true;
+            else if (pfArr.length && pfArr.includes(primaryFacilityId)) match = true;
+            else if (callsignArr.length && callsignArr.includes(callsign)) match = true;
+            // Detailed debug output for each controller
+            console.log('[DEBUG] Controller:', { callsign, artcc, primaryFacilityId, match });
+            return match;
           });
+          console.log('[DEBUG] Filtered controllers:', ctrls);
+          setControllers(ctrls);
+        } else {
+          // No config, show all controllers
+          setControllers(ctrls);
         }
-        setControllers(ctrls);
         setLoading(false);
       })
       .catch((err) => {

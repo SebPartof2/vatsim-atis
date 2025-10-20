@@ -1,4 +1,8 @@
 {
-  "atis": ["JFK_ATIS", "LGA_ATIS", "EWR_ATIS","KSAN_ATIS"],
-  "controllers": ["ZLA"]
+  "name": "New York TRACON",
+  "desc": "New York Terminal Radar Approach Control",
+  "atis": ["JFK_ATIS", "LGA_ATIS", "EWR_ATIS","KSAN_ATIS","KPHX_ATIS"],
+  "controllers_artccid": ["ZLA"],
+  "controllers_facility": ["PCT"],
+  "controllers_callsign": ["BOS_GND"]
 }

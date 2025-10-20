@@ -1,4 +1,6 @@
 {
   "atis": ["PHNL_ATIS", "PHOG_ATIS", "PHLI_ATIS", "PHBK_ATIS", "PHKO_ATIS", "PHTO_ATIS", "PHMK_ATIS", "PHSF_ATIS", "PHJR_ATIS", "PHHI_ATIS"],
-  "controllers": ["ZHN"]
+  "controllers_artccid": ["ZHN"],
+  "controllers_facility": [""],
+  "controllers_callsign": ["BOS_GND"]
 }
